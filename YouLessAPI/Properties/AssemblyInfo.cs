@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("YouLessAPI")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © 2021, Alexander Schwahl")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

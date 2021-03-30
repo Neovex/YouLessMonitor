@@ -63,6 +63,21 @@ namespace YouLessMonitor
             }
         }
 
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var r = new LicenseBox().ShowDialog();
+            if (r.GetValueOrDefault())
+            {
+                MainWindow = new MainWindow();
+                MainWindow.Show();
+            }
+            else
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
         protected override void OnExit(ExitEventArgs e)
         {
             Log.Info("Shutdown", e.ApplicationExitCode);

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:YouLessMonitor"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             StartupUri="MainWindow.xaml">
+             ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
             <system:String x:Key="appName">YouLess Monitor</system:String>

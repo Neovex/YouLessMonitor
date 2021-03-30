@@ -14,8 +14,6 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <ProductName>YouLess Monitor</ProductName>
-    <PublisherName>Neovex</PublisherName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +40,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -73,6 +74,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Converter\BoolToColorConverter.cs" />
+    <Compile Include="LicenseBox.xaml.cs">
+      <DependentUpon>LicenseBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextExtension.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\MasterViewModel.cs" />
     <Compile Include="ViewModel\DeviceViewModel.cs" />
@@ -81,6 +86,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InputBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LicenseBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,7 +124,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -183,7 +191,9 @@
     <Resource Include="Images\test.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="license.txt" />
+    <Content Include="license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit">

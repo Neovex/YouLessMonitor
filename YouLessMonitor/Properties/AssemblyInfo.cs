@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("YouLess Monitor")]
-[assembly: AssemblyDescription("A monitorying application for YouLess devices")]
+[assembly: AssemblyDescription("A monitoring application for YouLess devices")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("YouLess Monitor")]
-[assembly: AssemblyCopyright("Copyright © 2020, Alexander Schwahl")]
+[assembly: AssemblyCopyright("Copyright © 2021, Alexander Schwahl")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,7 +51,7 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.85.24")]
-[assembly: AssemblyFileVersion("1.0.85.24")]
+[assembly: AssemblyVersion("1.0.9.1")]
+[assembly: AssemblyFileVersion("1.0.9.1")]
 [assembly: Guid("185898E6-6BA9-46F9-A381-0725E6F73321")]
 [assembly: NeutralResourcesLanguage("en")]
