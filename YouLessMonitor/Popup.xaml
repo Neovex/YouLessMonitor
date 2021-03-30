@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="YouLessMonitor.Popup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:YouLessMonitor"
+             mc:Ignorable="d" d:DesignWidth="330" d:DesignHeight="100">
+
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="8" Padding="5">
+        <Border.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="#FF1EE61E"/>
+                <GradientStop Color="#FF00DCFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid Margin="2" TextBlock.Foreground="Black" TextBlock.FontWeight="Bold">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{StaticResource appName}" FontWeight="Bold"/>
+
+            <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Devices}" IsReadOnly="True" Background="Transparent" RowBackground="Transparent" BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=Name}" Header="Device"/>
+                    <DataGridTemplateColumn Header="Status">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Ellipse Fill="Red" Width="8" Height="8" StrokeThickness="1" Stroke="Black"/>
+                                    <Ellipse Fill="#FF26CB26" Width="8" Height="8" StrokeThickness="1" Stroke="Black" Visibility="{Binding Status, Converter={StaticResource BoolToVis}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Path=Consumption}" Header="Power" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Path=TotalKwH}" Header="KwH" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Path=Sensor}" Header="Signal" IsReadOnly="True"/>
+                </DataGrid.Columns>
+
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Margin" Value="8,4"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+                <DataGrid.RowHeaderStyle>
+                    <Style TargetType="{x:Type DataGridRowHeader}">
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                </DataGrid.RowHeaderStyle>
+            </DataGrid>
+
+            <ProgressBar Grid.Row="2" Margin="1,5,1,0" Height="4" IsIndeterminate="True" Background="{x:Null}" BorderBrush="Black" Foreground="#FF970F09"/>
+        </Grid>
+    </Border>
+</UserControl>

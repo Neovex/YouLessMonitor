@@ -1,0 +1,82 @@
+﻿<Window x:Class="YouLessMonitor.AboutBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:clr="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="{Binding Source={StaticResource appName}, StringFormat=About {0}}" SizeToContent="WidthAndHeight" Icon="images/about.png" Foreground="White" ResizeMode="NoResize" Loaded="Window_Loaded">
+    
+    <Window.Background>
+        <ImageBrush ImageSource="Images/test.png" Stretch="None" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,32,32" Opacity="0.1"/>
+    </Window.Background>
+    <Window.Resources>
+        <clr:String x:Key="Website">https://schwahl.com</clr:String>
+        <clr:String x:Key="GitHub">https://github.com/Neovex</clr:String>
+        <clr:String x:Key="ImageSource">https://icons8.com</clr:String>
+    </Window.Resources>
+    
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Image Source="images/Neovex.png" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor" Margin="0,10"/>
+
+        <StackPanel Grid.Column="1" Margin="0,16, 30,0">
+            <TextBlock>
+                Developed by<LineBreak/>
+                <Hyperlink Command="{Binding Browse}" CommandParameter="{StaticResource Website}" ToolTip="{StaticResource Website}">
+                    Alexander Schwahl
+                </Hyperlink>
+                aka.
+                <Hyperlink Command="{Binding Browse}" CommandParameter="{StaticResource GitHub}" ToolTip="{StaticResource GitHub}">
+                    Neovex
+                </Hyperlink><LineBreak/>
+                <LineBreak/>
+                Icons by<LineBreak/>
+                <Hyperlink Command="{Binding Browse}" CommandParameter="{StaticResource ImageSource}" ToolTip="{StaticResource ImageSource}">
+                    <TextBlock Text="{StaticResource ImageSource}"/>
+                </Hyperlink>
+                <LineBreak/>
+            </TextBlock>
+            <Button Content="Browse to Application" HorizontalAlignment="Left" Padding="4,1"
+                    CommandParameter="{Binding InstallFolder}" Command="{Binding Browse}"
+                    Foreground="White" Background="#FF3C3C3C" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+
+        </StackPanel>
+        <TextBox xml:space="preserve" Grid.ColumnSpan="2" Grid.Row="1" Margin="5" MaxHeight="120" IsReadOnly="True" Foreground="White" VerticalScrollBarVisibility="Visible" Background="{x:Null}" TextBlock.FontSize="8" BorderBrush="Blue">Copyright (c) 2020, Alexander Schwahl
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the developer nor the names of any contributors
+      may be changed nor used to endorse or promote products derived from
+      this software without specific prior written permission.
+    * Redistribution of this software in source or binary forms shall be free
+      of all charges or fees to the recipient of this software.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL ALEXANDER SCHWAHL BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</TextBox>
+    </Grid>
+</Window>

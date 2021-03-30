@@ -1,0 +1,181 @@
+﻿<Window x:Class="YouLessMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YouLessMonitor"
+        xmlns:vm="clr-namespace:YouLessMonitor.ViewModel"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="{StaticResource appName}" Name="_MainWindow" MinHeight="300" Height="300" MinWidth="650" Width="900" Icon="{StaticResource defaultIcon}" Closing="MainWindow_Closing" Closed="MainWindow_Closed">
+
+    <Window.DataContext>
+        <vm:MasterViewModel/>
+    </Window.DataContext>
+
+    <Window.InputBindings>
+        <KeyBinding x:Name="_ConnectInput" Key="A" Modifiers="Alt" Command="{Binding Commands.Connect}" CommandParameter="{Binding}"/>
+        <KeyBinding x:Name="_ExportInput" Key="E" Modifiers="Alt" Command="{Binding Commands.Export}" CommandParameter="{Binding}"/>
+        <KeyBinding x:Name="_ExitInput" Key="F4" Modifiers="Alt" Command="{Binding Commands.Exit}" CommandParameter="{Binding}"/>
+    </Window.InputBindings>
+
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+
+            <MenuItem Grid.Column="0" Header="_Monitor">
+                <MenuItem Header="_Add Device..." Command="{Binding Commands.Connect}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ConnectInput, Converter={local:KeyBindingToStringConverter}}">
+                    <MenuItem.Icon>
+                        <Image Source="Images/connect.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="E_xport CSV..." Command="{Binding Commands.Export}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ExportInput, Converter={local:KeyBindingToStringConverter}}">
+                    <MenuItem.Icon>
+                        <Image Source="Images/export.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="_Exit" Command="{Binding Commands.Exit}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ExitInput, Converter={local:KeyBindingToStringConverter}}">
+                    <MenuItem.Icon>
+                        <Image Source="Images/exit.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem  Grid.Column="2" Header="_Info" HorizontalAlignment="Right">
+                <MenuItem Header="_About" Command="{Binding Commands.About}" CommandParameter="{Binding Commands}">
+                    <MenuItem.Icon>
+                        <Image Source="Images/about.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock FontSize="11" Text="{Binding Path=StatusCounter, StringFormat=Next status update in {0}}" Visibility="{Binding ElementName=_TabDevices, Path=IsSelected, Converter={StaticResource BoolToVis}}"/>
+                    <TextBlock FontSize="11" Text="{Binding Path=HistoryCounter, StringFormat=Next history update in {0}}" Visibility="{Binding ElementName=_TabHistory, Path=IsSelected, Converter={StaticResource BoolToVis}}"/>
+                    <Image Margin="6,0,0,0" Source="Images/clock.png" Height="16"/>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+
+
+        <tb:TaskbarIcon IconSource="{StaticResource trayIcon}" ToolTipText="{StaticResource appName}" TrayLeftMouseUp="ToggleMainWindow">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{Binding Source={StaticResource appName}}" IsEnabled="False">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource defaultIcon}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Show" Click="ToggleMainWindow">
+                        <MenuItem.Icon>
+                            <Image Source="Images/show.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Exit" CommandParameter="{Binding}" Command="{Binding Commands.Exit}">
+                        <MenuItem.Icon>
+                            <Image Source="Images/exit.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+            <tb:TaskbarIcon.TrayToolTip>
+                <local:Popup/>
+            </tb:TaskbarIcon.TrayToolTip>
+        </tb:TaskbarIcon>
+
+
+        <TabControl Margin="1">
+            <TabItem Name="_TabDevices">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/devices.png" Width="16" Height="16"/>
+                        <TextBlock Margin="4,0,0,0">Devices</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Single" MouseLeftButtonDown="DataGrid_MouseLeftButtonDown">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=Name}" Header="Device Name"/>
+                        <DataGridTextColumn Binding="{Binding Path=Address}" Header="Address" IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding Path=Consumption}" Header="Current Power" IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding Path=TotalKwH}" Header="Total KwH" IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding Path=Sensor}" Header="Sensor Signal" IsReadOnly="True"/>
+
+                        <DataGridTemplateColumn Width="*" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button HorizontalAlignment="Left" Margin="1" Padding="0" ToolTip="Update now!" Width="20"
+                                                Command="{Binding ElementName=_MainWindow, Path=DataContext.Commands.ManualStatusUpdate, IsAsync=True}"
+                                                CommandParameter="{Binding ElementName=_MainWindow, Path=DataContext, IsAsync=True}">
+                                            <Image Source="Images/refresh.png"/>
+                                        </Button>
+                                        <Button HorizontalAlignment="Left" Margin="3,1" Padding="0" ToolTip="Browse to Device" Width="20"
+                                                Command="{Binding ElementName=_MainWindow, Path=DataContext.Commands.Browse, IsAsync=True}"
+                                                CommandParameter="{Binding Address.AbsoluteUri}">
+                                            <Image Source="Images/globe.png"/>
+                                        </Button>
+                                        <Button HorizontalAlignment="Left" Margin="1" Padding="0" ToolTip="Delete Device" Width="20"
+                                                Command="{Binding ElementName=_MainWindow, Path=DataContext.Commands.Delete, IsAsync=True}"
+                                                CommandParameter="{Binding ElementName=_MainWindow, Path=DataContext, IsAsync=True}">
+                                            <Image Source="Images/delete.png"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="{Binding Status, Converter={local:BoolToColorConverter}}"/>
+                        </Style>
+                    </DataGrid.RowStyle>
+                </DataGrid>
+            </TabItem>
+            <TabItem Name="_TabHistory">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/history.png" Width="16" Height="16"/>
+                        <TextBlock Margin="4,0,0,0">History</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                        <Label Content="Filter _From:" VerticalAlignment="Center" Target="{Binding ElementName=_FromPicker}"/>
+                        <xceed:DateTimePicker Name="_FromPicker" Margin="5" Kind="Local" ShowButtonSpinner="False" Value="{Binding History.Startfilter}"/>
+                        <Label Content="_To:" VerticalAlignment="Center" Target="{Binding ElementName=_ToPicker}"/>
+                        <xceed:DateTimePicker Name="_ToPicker" Margin="5" Kind="Local" ShowButtonSpinner="False" Value="{Binding History.EndFilter}"/>
+                        <Button ToolTip="Update Now" Margin="5" Padding="5,1" CommandParameter="{Binding}" Command="{Binding Commands.ManualHistoryUpdate, IsAsync=True}">
+                            <Image Source="images/refresh.png" Height="16"/>
+                        </Button>
+                        <Button ToolTip="Export History as CSV" Margin="5" Padding="5,1" CommandParameter="{Binding}" Command="{Binding Commands.Export, IsAsync=True}">
+                            <Image Source="images/export.png" Height="16"/>
+                        </Button>
+                    </StackPanel>
+                    <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding History.View}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" MouseLeftButtonDown="DataGrid_MouseLeftButtonDown"/>
+                </DockPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/log.png" Width="16" Height="16"/>
+                        <TextBlock Margin="4,0,0,0">Log</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TextBox Name="_LogBox" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+            </TabItem>
+        </TabControl>
+
+
+    </DockPanel>
+</Window>
