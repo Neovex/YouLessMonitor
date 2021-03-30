@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace YouLessAPI
 {
@@ -15,9 +15,11 @@ namespace YouLessAPI
         Days
     }
 
+
     public class YouLessService
     {
-        private char[] _Resolutions = new[] { 'h', 'w', 'd', 'm' };
+        private readonly char[] _Resolutions = new[] { 'h', 'w', 'd', 'm' };
+
 
         public Uri BaseAdress { get; }
 

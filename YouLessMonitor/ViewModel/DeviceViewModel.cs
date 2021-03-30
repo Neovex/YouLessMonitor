@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using YouLessAPI;
+using WPFMVVM.ViewModel;
 
 namespace YouLessMonitor.ViewModel
 {
-    public class DeviceViewModel : ViewModelBase
+    public class DeviceViewModel : BaseVM
     {
         private string _Name;
         private Uri _Address;

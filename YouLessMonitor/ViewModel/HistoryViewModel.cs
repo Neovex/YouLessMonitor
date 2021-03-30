@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using WPFMVVM.ViewModel;
 using YouLessAPI;
 
 namespace YouLessMonitor.ViewModel
 {
-    public class HistoryViewModel : ViewModelBase
+    public class HistoryViewModel : BaseVM
     {
         private IEnumerable<DeviceViewModel> _Devices;
         private DataView _View;

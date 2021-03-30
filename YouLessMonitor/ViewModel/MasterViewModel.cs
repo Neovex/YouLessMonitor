@@ -9,10 +9,11 @@ using YouLessAPI;
 using System.Collections.ObjectModel;
 using YouLessMonitor.Commands;
 using System.Windows.Threading;
+using WPFMVVM.ViewModel;
 
 namespace YouLessMonitor.ViewModel
 {
-    public class MasterViewModel : ViewModelBase
+    public class MasterViewModel : BaseVM
     {
         private const string _FILE = "history.bin";
         private const int _IMPULSE = 30;

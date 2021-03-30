@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouLessMonitor"
+        xmlns:mvvm="clr-namespace:WPFMVVM.Converter;assembly=WPFMVVM"
         xmlns:vm="clr-namespace:YouLessMonitor.ViewModel"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -30,18 +31,18 @@
             </Menu.ItemsPanel>
 
             <MenuItem Grid.Column="0" Header="_Monitor">
-                <MenuItem Header="_Add Device..." Command="{Binding Commands.Connect}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ConnectInput, Converter={local:KeyBindingToStringConverter}}">
+                <MenuItem Header="_Add Device..." Command="{Binding Commands.Connect}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ConnectInput, Converter={mvvm:KeyBindingToStringConverter}}">
                     <MenuItem.Icon>
                         <Image Source="Images/connect.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="E_xport CSV..." Command="{Binding Commands.Export}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ExportInput, Converter={local:KeyBindingToStringConverter}}">
+                <MenuItem Header="E_xport CSV..." Command="{Binding Commands.Export}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ExportInput, Converter={mvvm:KeyBindingToStringConverter}}">
                     <MenuItem.Icon>
                         <Image Source="Images/export.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="_Exit" Command="{Binding Commands.Exit}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ExitInput, Converter={local:KeyBindingToStringConverter}}">
+                <MenuItem Header="_Exit" Command="{Binding Commands.Exit}" CommandParameter="{Binding}" InputGestureText="{Binding ElementName=_ExitInput, Converter={mvvm:KeyBindingToStringConverter}}">
                     <MenuItem.Icon>
                         <Image Source="Images/exit.png"/>
                     </MenuItem.Icon>

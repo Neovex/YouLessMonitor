@@ -1,10 +1,11 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
+using WPFMVVM.Commands;
 using YouLessMonitor.ViewModel;
 
 namespace YouLessMonitor.Commands
@@ -14,23 +15,21 @@ namespace YouLessMonitor.Commands
         public string InstallFolder { get; } = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
 
-        public ICommand Connect { get; } = new DelegateCommand<MasterViewModel>(vm => RequestUri(vm), name: nameof(Connect));
+        public ICommand Connect { get; } = new DelegateCommand<MasterViewModel>(vm => RequestUri(vm));
 
-        public ICommand Export { get; } = new DelegateCommand<MasterViewModel>(ExportCSV, name: nameof(Export));
+        public ICommand Export { get; } = new DelegateCommand<MasterViewModel>(ExportCSV);
 
-        public ICommand Exit { get; } = new DelegateCommand<MasterViewModel>(ExitApplication, name: nameof(Exit));
+        public ICommand Exit { get; } = new DelegateCommand<MasterViewModel>(ExitApplication);
 
-        public ICommand Browse { get; } = new DelegateCommand<string>(s => Process.Start(s), s => !string.IsNullOrWhiteSpace(s), nameof(Browse));
+        public ICommand Browse { get; } = new DelegateCommand<string>(s => Process.Start(s), s => !string.IsNullOrWhiteSpace(s));
 
-        public ICommand Delete { get; } = new DelegateCommand<MasterViewModel>(DeleteDevice, name: nameof(Delete));
+        public ICommand Delete { get; } = new DelegateCommand<MasterViewModel>(DeleteDevice);
 
-        public ICommand About { get; } = new DelegateCommand<CustomCommands>(c => new AboutBox() { DataContext = c }.ShowDialog(), name: nameof(About));
+        public ICommand About { get; } = new DelegateCommand<CustomCommands>(c => new AboutBox() { DataContext = c }.ShowDialog());
 
-        public ICommand ManualStatusUpdate { get; } = new DelegateCommand<MasterViewModel>(vm => _ = vm.UpdateStatus(vm.SelectedDevice), name: nameof(ManualStatusUpdate));
+        public ICommand ManualStatusUpdate { get; } = new DelegateCommand<MasterViewModel>(vm => _ = vm.UpdateStatus(vm.SelectedDevice));
 
-        public ICommand ManualHistoryUpdate { get; } = new DelegateCommand<MasterViewModel>(vm => _ = vm.UpdateHistory(false), name: nameof(ManualHistoryUpdate));
-
-
+        public ICommand ManualHistoryUpdate { get; } = new DelegateCommand<MasterViewModel>(vm => _ = vm.UpdateHistory(false));
 
 
         private static void RequestUri(MasterViewModel masterVM, string def = "http://enterAdressOrIP")
